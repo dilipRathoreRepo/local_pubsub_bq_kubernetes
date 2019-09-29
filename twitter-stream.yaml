@@ -27,7 +27,7 @@ spec:
         - name: CONSUMERSECRET
           value: UY8sLWjOVdPzLIGfuNweCxtsA63ZcWhbU1r8vbkVaxfzfFu8tE
         - name: ACCESSTOKEN
-          value: 1032717608066469888-DcWligCWf7c5m3x8MsjBazrslEkF0q
+          value: 1032717608066469888-DcWligCWf7c5m3x8MsjBazrslEkF0fq
         - name: ACCESSTOKENSEC
           value: ziI7VUNTGGmrbcfRqkx7TDNtDq8Z4efvkHZT3d4sUA3i8
         - name: TWSTREAMMODE
