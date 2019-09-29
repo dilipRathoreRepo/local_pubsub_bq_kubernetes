@@ -28,11 +28,6 @@ spec:
     command:
     - cat
     tty: true
-//  - name: python
-//    image: gcr.io/cloud-marketplace/google/python
-//    command:
-//    - cat
-//    tty: true
   - name: gcloud
     image: gcr.io/cloud-builders/gcloud
     command:
