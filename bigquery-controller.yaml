@@ -27,4 +27,4 @@ spec:
         - name: BQ_DATASET
           value: mydataset
         - name: BQ_TABLE
-          value: twitter
+          value: tweets
