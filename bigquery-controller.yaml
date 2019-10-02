@@ -14,7 +14,7 @@ spec:
       containers:
       - name: bigquery
 #        image: gcr.io/google-samples/pubsub-bq-pipe:v5
-        image: gcr.io/rising-minutia-254502/pubsub-bq-pipe:v1
+        image: gcr.io/rising-minutia-254502/pubsub-bq-pipe:v3
         env:
         - name: PROCESSINGSCRIPT
           value: pubsub-to-bigquery
