@@ -1,11 +1,11 @@
 pipeline {
 
   environment {
-    PROJECT = "vivid-fragment-222314"
+    PROJECT = "rising-minutia-254502"
     APP_NAME = "pubsub_bq_kubernetes"
     CLUSTER = "jenkins-cd"
     CLUSTER_ZONE = "us-east1-d"
-//    IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+    IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:v\"${env.BUILD_NUMBER}\""
     JENKINS_CRED = "vivid-fragment-222314"
   }
 
