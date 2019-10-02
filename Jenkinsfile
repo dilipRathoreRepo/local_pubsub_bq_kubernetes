@@ -42,17 +42,13 @@ spec:
 }
   }
   stages {
-//    stage('Test') {
-//      steps {
-//        container('python') {
-//          sh """
-//            ln -s `pwd` /go/src/sample-app
-//            cd /go/src/sample-app
-//            sh "python -m pytest" 
-//          """
-//        }
-//      }
-//    }
+    stage('Test') {
+      steps {
+        sh label: '', script: "nosetests --with-xunit --all-modules --traverse-namespace --with-coverage --cover-package=pubsub-pipe-image --cover-inclusive"
+        sh label: '', script: "python -m coverage xml --include=pubsub-pipe-image*"
+        sh label: '', script: "pylint -f parseable -d I0011,R0801 pubsub-pipe-image | tee pylint.out"
+      }
+    }
 //    stage('Build and push image with Container Builder') {
 //      steps {
 //        container('gcloud') {
