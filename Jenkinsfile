@@ -6,7 +6,7 @@ pipeline {
     CLUSTER = "jenkins-cd"
     CLUSTER_ZONE = "us-east1-d"
     IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:v\"${env.BUILD_NUMBER}\""
-    JENKINS_CRED = "vivid-fragment-222314"
+    JENKINS_CRED = "rising-minutia-254502"
   }
 
   agent {
