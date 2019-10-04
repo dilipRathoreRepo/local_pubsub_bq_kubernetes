@@ -32,4 +32,5 @@ spec:
         - name: ACCESSTOKENSEC
           value: ziI7VUNTGGmrbcfRqkx7TDNtDq8Z4efvkHZT3d4sUA3i8
         - name: TWSTREAMMODE
-          value: sample
+#          value: sample
+          value: filtered
