@@ -71,8 +71,6 @@ spec:
           sh label: '', script: 'echo "IMAGE_TAG is : ${IMAGE_TAG}"'
           // Change deployed image in production to the one we just built
           sh("sed -i.bak 's#gcr.io/rising-minutia-254502/pubsub-bq-pipe:v1#${IMAGE_TAG}#' *.yaml")
-          sh "cat twitter-stream.yaml"
-          sh "cat bigquery-controller.yaml"
           // sh label: '', script: 'kubectl create ns production'
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'twitter-stream.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'bigquery-controller.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
