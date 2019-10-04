@@ -56,22 +56,22 @@ spec:
         }
       }
     }
-//    stage('Build and push image with Container Builder') {
-//      steps {
-//        container('gcloud') {
-//          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
-//        }
-//      }
-//    }
+    stage('Build and push image with Container Builder') {
+      steps {
+        container('gcloud') {
+          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
+        }
+      }
+    }
     stage('Deploy Production') {
       // Production branch
       // when { branch 'master' }
       steps{
         container('kubectl') {
           sh label: '', script: 'echo "IMAGE_TAG is : ${IMAGE_TAG}"'
-        // Change deployed image in production to the one we just built
-          //  sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
-          //sh label: '', script: 'kubectl create ns production'
+          // Change deployed image in production to the one we just built
+          sh("sed -i.bak 's#gcr.io/rising-minutia-254502/pubsub-bq-pipe:v1#${IMAGE_TAG}#' *.yaml")
+          // sh label: '', script: 'kubectl create ns production'
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'twitter-stream.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'bigquery-controller.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
         }
