@@ -68,6 +68,7 @@ spec:
       // when { branch 'master' }
       steps{
         container('kubectl') {
+          sh label: '', script: 'echo "IMAGE_TAG is : ${IMAGE_TAG}"'
         // Change deployed image in production to the one we just built
           //  sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
           //sh label: '', script: 'kubectl create ns production'
