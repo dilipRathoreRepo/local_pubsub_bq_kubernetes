@@ -5,7 +5,7 @@ pipeline {
     APP_NAME = "pubsub_bq_kubernetes"
     CLUSTER = "jenkins-cd"
     CLUSTER_ZONE = "us-east1-d"
-    IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:v\"${env.BUILD_NUMBER}\""
+    IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:v${env.BUILD_NUMBER}"
     JENKINS_CRED = "rising-minutia-254502"
   }
 
@@ -23,11 +23,11 @@ spec:
   # Use service account that can deploy to all namespaces
   serviceAccountName: cd-jenkins
   containers:
-  - name: golang
-    image: golang:1.10
-    command:
-    - cat
-    tty: true
+//  - name: golang
+//    image: golang:1.10
+//    command:
+//    - cat
+//    tty: true
   - name: pythonenv
     image: gcr.io/rising-minutia-254502/python-image
     command:
@@ -56,21 +56,24 @@ spec:
         }
       }
     }
-//    stage('Build and push image with Container Builder') {
-//      steps {
-//        container('gcloud') {
-//          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
-//        }
-//      }
-//    }
+    stage('Build and push image with Container Builder') {
+      steps {
+        container('gcloud') {
+          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ./pubsub-pipe-image"
+        }
+      }
+    }
     stage('Deploy Production') {
       // Production branch
       // when { branch 'master' }
       steps{
         container('kubectl') {
-        // Change deployed image in production to the one we just built
-          //  sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
-          //sh label: '', script: 'kubectl create ns production'
+          sh label: '', script: 'echo "IMAGE_TAG is : ${IMAGE_TAG}"'
+          // Change deployed image in production to the one we just built
+          sh("sed -i.bak 's#gcr.io/rising-minutia-254502/pubsub-bq-pipe:v1#${IMAGE_TAG}#' *.yaml")
+          sh "cat twitter-stream.yaml"
+          sh "cat bigquery-controller.yaml"
+          // sh label: '', script: 'kubectl create ns production'
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'twitter-stream.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
           step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'bigquery-controller.yaml', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
         }
